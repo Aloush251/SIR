@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A Search Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .highlight {
+            color: yellow;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="background-color: #b2ebf2;">
+    <div class="container mt-5">
+        <h2 class="text-center">Search for a Question</h2>
+        <form method="POST" class="text-center">
+            <div class="form-group">
+                <input type="text" name="query" class="form-control" value="{{ query }}" placeholder="أدخل استفسارك" required>
+            </div>
+            <div class="form-group">
+                <label>اختر خوارزمية الاسترجاع:</label><br>
+                <select name="algorithm" class="form-control">
+                    <option value="Boolean">Boolean</option>
+                    <option value="Extended Boolean">Extended Boolean</option>
+                    <option value="Vector Space">Vector Space</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">بحث</button>
+        </form>
+
+        <div class="mt-4">
+            {% if results %}
+                <h4>النتائج:</h4>
+                <ul class="list-group">
+                    {% for result in results %}
+                        <li class="list-group-item">
+                            {{ result['question'] | replace(query, '<span class="highlight">' + query + '</span>') | safe }}
+                            <button class="btn btn-info btn-sm float-right" onclick="alert('{{ result['answer'] }}')">Show More</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
